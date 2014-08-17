@@ -3,70 +3,626 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Asakusa operators cheetsheet by ironpeace</title>
+    <title>Asakusa 演算子 cheetsheet</title>
 
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="javascripts/scale.fix.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/styles/default.min.css">
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/highlight.min.js"></script>
+
   </head>
   <body>
-    <div class="wrapper">
-      <header>
-        <h1 class="header">Asakusa operators cheetsheet</h1>
-        <p class="header"></p>
+    <nav class="navbar navbar-default" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Asakusa 演算子 CheetSheet</a>
+        </div>
+      </div>
+    </nav>
 
-        <ul>
-          <li class="download"><a class="buttons" href="https://github.com/ironpeace/asakusa_operators_cheetsheet/zipball/master">Download ZIP</a></li>
-          <li class="download"><a class="buttons" href="https://github.com/ironpeace/asakusa_operators_cheetsheet/tarball/master">Download TAR</a></li>
-          <li><a class="buttons github" href="https://github.com/ironpeace/asakusa_operators_cheetsheet">View On GitHub</a></li>
-        </ul>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-2">
+          <div class="list-group">
+            <a class="list-group-item" href="#Branch">Branch</a>
+            <a class="list-group-item" href="#Confluent">Confluent</a>
+            <a class="list-group-item" href="#Update">Update</a>
+            <a class="list-group-item" href="#Convert">Convert</a>
+            <a class="list-group-item" href="#Extend">Extend</a>
+            <a class="list-group-item" href="#Project">Project</a>
+            <a class="list-group-item" href="#Restructure">Restructure</a>
+            <a class="list-group-item" href="#Extract">Extract</a>
+            <a class="list-group-item" href="#MasterCheck">MasterCheck</a>
+            <a class="list-group-item" href="#MasterJoin">MasterJoin</a>
+            <a class="list-group-item" href="#MasterBranch">MasterBranch</a>
+            <a class="list-group-item" href="#BranchWithJoin">BranchWithJoin</a>
+            <a class="list-group-item" href="#CoGroup">CoGroup</a>
+            <a class="list-group-item" href="#Split">Split</a>
+            <a class="list-group-item" href="#Summarize">Summarize</a>
+            <a class="list-group-item" href="#Fold">Fold</a>
+          </div>
+        </div>
+        <div class="col-md-10">
+          <div id="Branch" class="panel panel-default">
+            <div class="panel-heading">
+              <div class="row">
+                <div class="col-md-10">
+                  <h3 class="panel-title">Branch：分岐演算子</h3>
+                </div>
+                <div class="col-md-2">
+                  <a class="pull-right" href="http://asakusafw.s3.amazonaws.com/documents/latest/release/ja/html/dsl/operators.html#id29" target="_blank">Official Page</a>
+                </div>
+              </div>
+            </div>
+            <div class="panel-body">
+          <div class="row">
+            <div class="col-md-4">
+              <h5>概要図</h5>
+              <img src="images/charts/AsakusaCheetSheet.001.jpg" width="300px"/>
+            </div>
+            <div class="col-md-4">
+              <h5>JobFlowクラス実装</h5>
+<pre><code class="java">HogePrice hogePrice
+   = operator.hogePrice(this.hoge);
 
-        <p class="header">This project is maintained by <a class="header name" href="https://github.com/ironpeace">ironpeace</a></p>
-
-
-      </header>
-      <section>
-        <h3>
-<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
-
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
-
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
+JoinedMoge joinedMoge
+   = operator.joinedMoge
+      (this.moge, hogePrice.CHEEP);
 </code></pre>
+            </div>
+            <div class="col-md-4">
+              <h5>Operatorクラス実装</h5>
+<pre><code class="java">@Branch
+public Status hogePrice(Hoge hoge) {
+  int price = hoge.getPrice();
+  if (price < 0) {
+    return Status.ERROR;
+  }
+  if (price >= 1000000) {
+    return Status.EXPENSIVE;
+  }
+  return Status.CHEAP;
+}
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+public enum Status {
+  EXPENSIVE, CHEAP, ERROR
+}
+</code></pre>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12"><a href="#" class="pull-right">back to top</a></div>
+          </div>
+        </div>
+      </div>
 
-<h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
+      <!-- Confluent -->
+      <div id="Confluent" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-10">
+              <h3 class="panel-title">Confluent：演算子</h3>
+            </div>
+            <div class="col-md-2">
+              <a class="pull-right" href="" target="_blank">Official Page</a>
+            </div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-md-4">
+              <h5>概要図</h5>
+            </div>
+            <div class="col-md-4">
+              <h5>JobFlowクラス実装</h5>
+              <pre><code class="java">
+              </code></pre>
+            </div>
+            <div class="col-md-4">
+              <h5>Operatorクラス実装</h5>
+              <pre><code class="java">
+              </code></pre>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12"><a href="#" class="pull-right">back to top</a></div>
+          </div>
+        </div>
+      </div>
+      <!-- Confluent -->
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+      <!-- Update -->
+      <div id="Update" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-10">
+              <h3 class="panel-title">Update</h3>
+            </div>
+            <div class="col-md-2">
+              <a class="pull-right" href="" target="_blank">Official Page</a>
+            </div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-md-4">
+              <h5>概要図</h5>
+            </div>
+            <div class="col-md-4">
+              <h5>JobFlowクラス実装</h5>
+              <pre><code class="java">
+              </code></pre>
+            </div>
+            <div class="col-md-4">
+              <h5>Operatorクラス実装</h5>
+              <pre><code class="java">
+              </code></pre>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12"><a href="#" class="pull-right">back to top</a></div>
+          </div>
+        </div>
+      </div>
+      <!-- Update -->
 
-<h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
+      <!-- Convert -->
+      <div id="Convert" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-10">
+              <h3 class="panel-title">Convert</h3>
+            </div>
+            <div class="col-md-2">
+              <a class="pull-right" href="" target="_blank">Official Page</a>
+            </div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-md-4">
+              <h5>概要図</h5>
+            </div>
+            <div class="col-md-4">
+              <h5>JobFlowクラス実装</h5>
+              <pre><code class="java">
+              </code></pre>
+            </div>
+            <div class="col-md-4">
+              <h5>Operatorクラス実装</h5>
+              <pre><code class="java">
+              </code></pre>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12"><a href="#" class="pull-right">back to top</a></div>
+          </div>
+        </div>
+      </div>
+      <!-- Convert -->
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+      <!-- Extend -->
+      <div id="Extend" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-10">
+              <h3 class="panel-title">Extend</h3>
+            </div>
+            <div class="col-md-2">
+              <a class="pull-right" href="" target="_blank">Official Page</a>
+            </div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-md-4">
+              <h5>概要図</h5>
+            </div>
+            <div class="col-md-4">
+              <h5>JobFlowクラス実装</h5>
+              <pre><code class="java">
+              </code></pre>
+            </div>
+            <div class="col-md-4">
+              <h5>Operatorクラス実装</h5>
+              <pre><code class="java">
+              </code></pre>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12"><a href="#" class="pull-right">back to top</a></div>
+          </div>
+        </div>
+      </div>
+      <!-- Extend -->
 
-<h3>
-<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+      <!-- Project -->
+      <div id="Project" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-10">
+              <h3 class="panel-title">Project</h3>
+            </div>
+            <div class="col-md-2">
+              <a class="pull-right" href="" target="_blank">Official Page</a>
+            </div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-md-4">
+              <h5>概要図</h5>
+            </div>
+            <div class="col-md-4">
+              <h5>JobFlowクラス実装</h5>
+              <pre><code class="java">
+              </code></pre>
+            </div>
+            <div class="col-md-4">
+              <h5>Operatorクラス実装</h5>
+              <pre><code class="java">
+              </code></pre>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12"><a href="#" class="pull-right">back to top</a></div>
+          </div>
+        </div>
+      </div>
+      <!-- Project -->
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+      <!-- Restructure -->
+      <div id="Restructure" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-10">
+              <h3 class="panel-title">Restructure</h3>
+            </div>
+            <div class="col-md-2">
+              <a class="pull-right" href="" target="_blank">Official Page</a>
+            </div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-md-4">
+              <h5>概要図</h5>
+            </div>
+            <div class="col-md-4">
+              <h5>JobFlowクラス実装</h5>
+              <pre><code class="java">
+              </code></pre>
+            </div>
+            <div class="col-md-4">
+              <h5>Operatorクラス実装</h5>
+              <pre><code class="java">
+              </code></pre>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12"><a href="#" class="pull-right">back to top</a></div>
+          </div>
+        </div>
+      </div>
+      <!-- Restructure -->
 
-<h3>
-<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
+      <!-- Extract -->
+      <div id="Extract" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-10">
+              <h3 class="panel-title">Extract</h3>
+            </div>
+            <div class="col-md-2">
+              <a class="pull-right" href="" target="_blank">Official Page</a>
+            </div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-md-4">
+              <h5>概要図</h5>
+            </div>
+            <div class="col-md-4">
+              <h5>JobFlowクラス実装</h5>
+              <pre><code class="java">
+              </code></pre>
+            </div>
+            <div class="col-md-4">
+              <h5>Operatorクラス実装</h5>
+              <pre><code class="java">
+              </code></pre>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12"><a href="#" class="pull-right">back to top</a></div>
+          </div>
+        </div>
+      </div>
+      <!-- Extract -->
 
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
-      </section>
-      <footer>
-        <p><small>Hosted on <a href="http://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
-      </footer>
+      <!-- MasterCheck -->
+      <div id="MasterCheck" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-10">
+              <h3 class="panel-title">MasterCheck</h3>
+            </div>
+            <div class="col-md-2">
+              <a class="pull-right" href="" target="_blank">Official Page</a>
+            </div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-md-4">
+              <h5>概要図</h5>
+            </div>
+            <div class="col-md-4">
+              <h5>JobFlowクラス実装</h5>
+              <pre><code class="java">
+              </code></pre>
+            </div>
+            <div class="col-md-4">
+              <h5>Operatorクラス実装</h5>
+              <pre><code class="java">
+              </code></pre>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12"><a href="#" class="pull-right">back to top</a></div>
+          </div>
+        </div>
+      </div>
+      <!-- MasterCheck -->
+
+      <!-- MasterJoin -->
+      <div id="MasterJoin" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-10">
+              <h3 class="panel-title">MasterJoin</h3>
+            </div>
+            <div class="col-md-2">
+              <a class="pull-right" href="" target="_blank">Official Page</a>
+            </div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-md-4">
+              <h5>概要図</h5>
+            </div>
+            <div class="col-md-4">
+              <h5>JobFlowクラス実装</h5>
+              <pre><code class="java">
+              </code></pre>
+            </div>
+            <div class="col-md-4">
+              <h5>Operatorクラス実装</h5>
+              <pre><code class="java">
+              </code></pre>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12"><a href="#" class="pull-right">back to top</a></div>
+          </div>
+        </div>
+      </div>
+      <!-- MasterJoin -->
+
+      <!-- MasterBranch -->
+      <div id="MasterBranch" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-10">
+              <h3 class="panel-title">MasterBranch</h3>
+            </div>
+            <div class="col-md-2">
+              <a class="pull-right" href="" target="_blank">Official Page</a>
+            </div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-md-4">
+              <h5>概要図</h5>
+            </div>
+            <div class="col-md-4">
+              <h5>JobFlowクラス実装</h5>
+              <pre><code class="java">
+              </code></pre>
+            </div>
+            <div class="col-md-4">
+              <h5>Operatorクラス実装</h5>
+              <pre><code class="java">
+              </code></pre>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12"><a href="#" class="pull-right">back to top</a></div>
+          </div>
+        </div>
+      </div>
+      <!-- MasterBranch -->
+
+      <!-- BranchWithJoin -->
+      <div id="BranchWithJoin" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-10">
+              <h3 class="panel-title">BranchWithJoin</h3>
+            </div>
+            <div class="col-md-2">
+              <a class="pull-right" href="" target="_blank">Official Page</a>
+            </div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-md-4">
+              <h5>概要図</h5>
+            </div>
+            <div class="col-md-4">
+              <h5>JobFlowクラス実装</h5>
+              <pre><code class="java">
+              </code></pre>
+            </div>
+            <div class="col-md-4">
+              <h5>Operatorクラス実装</h5>
+              <pre><code class="java">
+              </code></pre>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12"><a href="#" class="pull-right">back to top</a></div>
+          </div>
+        </div>
+      </div>
+      <!-- BranchWithJoin -->
+
+      <!-- CoGroup -->
+      <div id="CoGroup" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-10">
+              <h3 class="panel-title">CoGroup</h3>
+            </div>
+            <div class="col-md-2">
+              <a class="pull-right" href="" target="_blank">Official Page</a>
+            </div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-md-4">
+              <h5>概要図</h5>
+            </div>
+            <div class="col-md-4">
+              <h5>JobFlowクラス実装</h5>
+              <pre><code class="java">
+              </code></pre>
+            </div>
+            <div class="col-md-4">
+              <h5>Operatorクラス実装</h5>
+              <pre><code class="java">
+              </code></pre>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12"><a href="#" class="pull-right">back to top</a></div>
+          </div>
+        </div>
+      </div>
+      <!-- CoGroup -->
+
+      <!-- Split -->
+      <div id="Split" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-10">
+              <h3 class="panel-title">Split</h3>
+            </div>
+            <div class="col-md-2">
+              <a class="pull-right" href="" target="_blank">Official Page</a>
+            </div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-md-4">
+              <h5>概要図</h5>
+            </div>
+            <div class="col-md-4">
+              <h5>JobFlowクラス実装</h5>
+              <pre><code class="java">
+              </code></pre>
+            </div>
+            <div class="col-md-4">
+              <h5>Operatorクラス実装</h5>
+              <pre><code class="java">
+              </code></pre>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12"><a href="#" class="pull-right">back to top</a></div>
+          </div>
+        </div>
+      </div>
+      <!-- Split -->
+
+      <!-- Summarize -->
+      <div id="Summarize" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-10">
+              <h3 class="panel-title">Summarize</h3>
+            </div>
+            <div class="col-md-2">
+              <a class="pull-right" href="" target="_blank">Official Page</a>
+            </div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-md-4">
+              <h5>概要図</h5>
+            </div>
+            <div class="col-md-4">
+              <h5>JobFlowクラス実装</h5>
+              <pre><code class="java">
+              </code></pre>
+            </div>
+            <div class="col-md-4">
+              <h5>Operatorクラス実装</h5>
+              <pre><code class="java">
+              </code></pre>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12"><a href="#" class="pull-right">back to top</a></div>
+          </div>
+        </div>
+      </div>
+      <!-- Summarize -->
+
+      <!-- Fold -->
+      <div id="Fold" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-10">
+              <h3 class="panel-title">Fold</h3>
+            </div>
+            <div class="col-md-2">
+              <a class="pull-right" href="" target="_blank">Official Page</a>
+            </div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-md-4">
+              <h5>概要図</h5>
+            </div>
+            <div class="col-md-4">
+              <h5>JobFlowクラス実装</h5>
+              <pre><code class="java">
+              </code></pre>
+            </div>
+            <div class="col-md-4">
+              <h5>Operatorクラス実装</h5>
+              <pre><code class="java">
+              </code></pre>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12"><a href="#" class="pull-right">back to top</a></div>
+          </div>
+        </div>
+      </div>
+      <!-- Fold -->
+
     </div>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-		
+    <script>hljs.initHighlightingOnLoad();</script>		
   </body>
 </html>
