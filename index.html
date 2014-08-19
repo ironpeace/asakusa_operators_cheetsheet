@@ -17,6 +17,15 @@
       <div class="container-fluid">
         <div class="navbar-header">
           <a class="navbar-brand" href="#">Asakusa 演算子 CheetSheet</a>
+
+          <div class="pull-right">
+            <div class="fb-like" data-href="http://ironpeace.github.io/asakusa_operators_cheetsheet/" data-layout="button_count" data-action="like" data-show-faces="false" data-share="false"></div>
+
+            <a href="https://twitter.com/share" class="twitter-share-button" data-lang="ja" data-hashtags="AsakusaFw">ツイート</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+            <a href="http://b.hatena.ne.jp/entry/http://ironpeace.github.io/asakusa_operators_cheetsheet/" class="hatena-bookmark-button" data-hatena-bookmark-title="Asakusa 演算子 CheetSheet" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+          </div>
+
         </div>
       </div>
     </nav>
@@ -51,7 +60,7 @@
                   <h3 class="panel-title">Branch：分岐演算子</h3>
                 </div>
                 <div class="col-md-2">
-                  <a class="pull-right" href="http://asakusafw.s3.amazonaws.com/documents/latest/release/ja/html/dsl/operators.html#id29" target="_blank">Official Page</a>
+                  <a class="pull-right" href="http://asakusafw.s3.amazonaws.com/documents/latest/release/ja/html/dsl/operators.html#id26" target="_blank">Official Page</a>
                 </div>
               </div>
             </div>
@@ -102,10 +111,10 @@ public enum Status {
         <div class="panel-heading">
           <div class="row">
             <div class="col-md-10">
-              <h3 class="panel-title">Confluent：演算子</h3>
+              <h3 class="panel-title">Confluent：合流演算子</h3>
             </div>
             <div class="col-md-2">
-              <a class="pull-right" href="" target="_blank">Official Page</a>
+              <a class="pull-right" href="http://asakusafw.s3.amazonaws.com/documents/latest/release/ja/html/dsl/operators.html#id30" target="_blank">Official Page</a>
             </div>
           </div>
         </div>
@@ -113,16 +122,26 @@ public enum Status {
           <div class="row">
             <div class="col-md-4">
               <h5>概要図</h5>
+              <img src="images/charts/AsakusaCheetSheet.002.jpg" width="300px"/>
             </div>
             <div class="col-md-4">
               <h5>JobFlowクラス実装</h5>
-              <pre><code class="java">
+              <pre><code class="java">In<Hoge> in1, in2, in3;
+Out<Hoge> out;
+
+@Override
+protected void describe() {
+  CoreOperatorFactory core
+    = new CoreOperatorFactory();
+  Confluent&lt;Hoge&gt; op
+    = core.confluent(in1,in2,in3);
+  out.add(op);
+}
               </code></pre>
             </div>
             <div class="col-md-4">
               <h5>Operatorクラス実装</h5>
-              <pre><code class="java">
-              </code></pre>
+              <pre><code class="java">// 実装不要</code></pre>
             </div>
           </div>
           <div class="row">
@@ -137,10 +156,10 @@ public enum Status {
         <div class="panel-heading">
           <div class="row">
             <div class="col-md-10">
-              <h3 class="panel-title">Update</h3>
+              <h3 class="panel-title">Update：更新演算子</h3>
             </div>
             <div class="col-md-2">
-              <a class="pull-right" href="" target="_blank">Official Page</a>
+              <a class="pull-right" href="http://asakusafw.s3.amazonaws.com/documents/latest/release/ja/html/dsl/operators.html#id37" target="_blank">Official Page</a>
             </div>
           </div>
         </div>
@@ -148,15 +167,21 @@ public enum Status {
           <div class="row">
             <div class="col-md-4">
               <h5>概要図</h5>
+              <img src="images/charts/AsakusaCheetSheet.003.jpg" width="300px"/>
             </div>
             <div class="col-md-4">
               <h5>JobFlowクラス実装</h5>
-              <pre><code class="java">
+              <pre><code class="java">UpdatedHoge updatedHoge
+ = operator.updatedHoge(this.hoge);
+out.add(updatedHoge.out);
               </code></pre>
             </div>
             <div class="col-md-4">
               <h5>Operatorクラス実装</h5>
-              <pre><code class="java">
+              <pre><code class="java">@Update
+public void updatedHoge(Hoge hoge){
+  hoge.setMoge("foo");
+}
               </code></pre>
             </div>
           </div>
@@ -172,10 +197,10 @@ public enum Status {
         <div class="panel-heading">
           <div class="row">
             <div class="col-md-10">
-              <h3 class="panel-title">Convert</h3>
+              <h3 class="panel-title">Convert：変換演算子</h3>
             </div>
             <div class="col-md-2">
-              <a class="pull-right" href="" target="_blank">Official Page</a>
+              <a class="pull-right" href="http://asakusafw.s3.amazonaws.com/documents/latest/release/ja/html/dsl/operators.html#id41" target="_blank">Official Page</a>
             </div>
           </div>
         </div>
@@ -183,15 +208,23 @@ public enum Status {
           <div class="row">
             <div class="col-md-4">
               <h5>概要図</h5>
+              <img src="images/charts/AsakusaCheetSheet.004.jpg" width="300px"/>
             </div>
             <div class="col-md-4">
               <h5>JobFlowクラス実装</h5>
-              <pre><code class="java">
+              <pre><code class="java">ConvertedHoge convertedHoge
+ = operator.convertedHoge(this.hoge);
+out.add(convertedHoge.out);
               </code></pre>
             </div>
             <div class="col-md-4">
               <h5>Operatorクラス実装</h5>
-              <pre><code class="java">
+              <pre><code class="java">@Convert
+public Moge convertedHoge(Hoge hoge){
+  Moge moge = new Moge();
+  moge.setMoge(hoge.getHoge());
+  return moge;
+}
               </code></pre>
             </div>
           </div>
@@ -207,10 +240,10 @@ public enum Status {
         <div class="panel-heading">
           <div class="row">
             <div class="col-md-10">
-              <h3 class="panel-title">Extend</h3>
+              <h3 class="panel-title">Extend：拡張演算子</h3>
             </div>
             <div class="col-md-2">
-              <a class="pull-right" href="" target="_blank">Official Page</a>
+              <a class="pull-right" href="http://asakusafw.s3.amazonaws.com/documents/latest/release/ja/html/dsl/operators.html#id45" target="_blank">Official Page</a>
             </div>
           </div>
         </div>
@@ -218,16 +251,26 @@ public enum Status {
           <div class="row">
             <div class="col-md-4">
               <h5>概要図</h5>
+              <img src="images/charts/AsakusaCheetSheet.005.jpg" width="300px"/>
             </div>
             <div class="col-md-4">
               <h5>JobFlowクラス実装</h5>
-              <pre><code class="java">
+              <pre><code class="java">In<Hoge> in;
+Out<Foo> out;
+
+@Override
+protected void describe() {
+ CoreOperatorFactory core
+  = new CoreOperatorFactory();
+ Extend&lt;Foo&gt; op
+  = core.extend(in, Foo.class);
+ out.add(op);
+}                
               </code></pre>
             </div>
             <div class="col-md-4">
               <h5>Operatorクラス実装</h5>
-              <pre><code class="java">
-              </code></pre>
+              <pre><code class="java">// 実装不要</code></pre>
             </div>
           </div>
           <div class="row">
@@ -242,10 +285,10 @@ public enum Status {
         <div class="panel-heading">
           <div class="row">
             <div class="col-md-10">
-              <h3 class="panel-title">Project</h3>
+              <h3 class="panel-title">Project：射影演算子</h3>
             </div>
             <div class="col-md-2">
-              <a class="pull-right" href="" target="_blank">Official Page</a>
+              <a class="pull-right" href="http://asakusafw.s3.amazonaws.com/documents/latest/release/ja/html/dsl/operators.html#id47" target="_blank">Official Page</a>
             </div>
           </div>
         </div>
@@ -253,16 +296,26 @@ public enum Status {
           <div class="row">
             <div class="col-md-4">
               <h5>概要図</h5>
+              <img src="images/charts/AsakusaCheetSheet.006.jpg" width="300px"/>
             </div>
             <div class="col-md-4">
               <h5>JobFlowクラス実装</h5>
-              <pre><code class="java">
+              <pre><code class="java">In<Foo> in;
+Out<Hoge> out;
+
+@Override
+protected void describe() {
+ CoreOperatorFactory core
+  = new CoreOperatorFactory();
+ Project&lt;Hoge&gt; op
+  = core.project(in, Hoge.class);
+ out.add(op);
+}
               </code></pre>
             </div>
             <div class="col-md-4">
               <h5>Operatorクラス実装</h5>
-              <pre><code class="java">
-              </code></pre>
+              <pre><code class="java">// 実装不要</code></pre>
             </div>
           </div>
           <div class="row">
@@ -277,10 +330,10 @@ public enum Status {
         <div class="panel-heading">
           <div class="row">
             <div class="col-md-10">
-              <h3 class="panel-title">Restructure</h3>
+              <h3 class="panel-title">Restructure：再構築演算子</h3>
             </div>
             <div class="col-md-2">
-              <a class="pull-right" href="" target="_blank">Official Page</a>
+              <a class="pull-right" href="http://asakusafw.s3.amazonaws.com/documents/latest/release/ja/html/dsl/operators.html#id49" target="_blank">Official Page</a>
             </div>
           </div>
         </div>
@@ -288,16 +341,26 @@ public enum Status {
           <div class="row">
             <div class="col-md-4">
               <h5>概要図</h5>
+              <img src="images/charts/AsakusaCheetSheet.007.jpg" width="300px"/>
             </div>
             <div class="col-md-4">
               <h5>JobFlowクラス実装</h5>
-              <pre><code class="java">
+              <pre><code class="java">In<Foo> in;
+Out<Hoge> out;
+
+@Override
+protected void describe() {
+ CoreOperatorFactory core
+  = new CoreOperatorFactory();
+ Restructure&lt;Hoge&gt; op
+  = core.restructure(in, Hoge.class);
+ out.add(op);
+}
               </code></pre>
             </div>
             <div class="col-md-4">
               <h5>Operatorクラス実装</h5>
-              <pre><code class="java">
-              </code></pre>
+              <pre><code class="java">// 実装不要</code></pre>
             </div>
           </div>
           <div class="row">
@@ -312,10 +375,10 @@ public enum Status {
         <div class="panel-heading">
           <div class="row">
             <div class="col-md-10">
-              <h3 class="panel-title">Extract</h3>
+              <h3 class="panel-title">Extract：抽出演算子</h3>
             </div>
             <div class="col-md-2">
-              <a class="pull-right" href="" target="_blank">Official Page</a>
+              <a class="pull-right" href="http://asakusafw.s3.amazonaws.com/documents/latest/release/ja/html/dsl/operators.html#id51" target="_blank">Official Page</a>
             </div>
           </div>
         </div>
@@ -326,12 +389,28 @@ public enum Status {
             </div>
             <div class="col-md-4">
               <h5>JobFlowクラス実装</h5>
-              <pre><code class="java">
+              <pre><code class="java">ExtractFields ef
+ = operator.extractFields(hoge, a, b);
+this.out.add(ef.aResult);
               </code></pre>
             </div>
             <div class="col-md-4">
               <h5>Operatorクラス実装</h5>
-              <pre><code class="java">
+              <pre><code class="java">private A a = new A();
+private B b = new B();
+
+@Extract
+public void extractFields(
+ Hoge hoge, 
+ Result&lt;A&gt; aResult, 
+ Result&lt;B&gt; bResult){
+  a.setValue(hoge.getA());
+  aResult.add(a);
+  b.setValue(hoge.getB0());
+  bResult.add(b);
+  b.setValue(hoge.getB1());
+  bResult.add(b);
+}
               </code></pre>
             </div>
           </div>
@@ -347,10 +426,10 @@ public enum Status {
         <div class="panel-heading">
           <div class="row">
             <div class="col-md-10">
-              <h3 class="panel-title">MasterCheck</h3>
+              <h3 class="panel-title">MasterCheck：マスタ確認演算子</h3>
             </div>
             <div class="col-md-2">
-              <a class="pull-right" href="" target="_blank">Official Page</a>
+              <a class="pull-right" href="http://asakusafw.s3.amazonaws.com/documents/latest/release/ja/html/dsl/operators.html#id56" target="_blank">Official Page</a>
             </div>
           </div>
         </div>
@@ -361,12 +440,17 @@ public enum Status {
             </div>
             <div class="col-md-4">
               <h5>JobFlowクラス実装</h5>
-              <pre><code class="java">
+              <pre><code class="java">Exists exists
+ = mainOperator.exists(master, tx);
+this.out.add(exists.found);
               </code></pre>
             </div>
             <div class="col-md-4">
               <h5>Operatorクラス実装</h5>
-              <pre><code class="java">
+              <pre><code class="java">@MasterCheck
+public abstract boolean exists(
+ @Key(group = "id") HogeMst master,
+ @Key(group = "masterId") HogeTrn tx);
               </code></pre>
             </div>
           </div>
@@ -382,10 +466,10 @@ public enum Status {
         <div class="panel-heading">
           <div class="row">
             <div class="col-md-10">
-              <h3 class="panel-title">MasterJoin</h3>
+              <h3 class="panel-title">MasterJoin：マスタ結合演算子</h3>
             </div>
             <div class="col-md-2">
-              <a class="pull-right" href="" target="_blank">Official Page</a>
+              <a class="pull-right" href="http://asakusafw.s3.amazonaws.com/documents/latest/release/ja/html/dsl/operators.html#id62" target="_blank">Official Page</a>
             </div>
           </div>
         </div>
@@ -396,12 +480,18 @@ public enum Status {
             </div>
             <div class="col-md-4">
               <h5>JobFlowクラス実装</h5>
-              <pre><code class="java">
+              <pre><code class="java">Join join
+ = operator.join(master, tx);
+this.join.add(join.out);
+core.stop(join.missed);
               </code></pre>
             </div>
             <div class="col-md-4">
               <h5>Operatorクラス実装</h5>
-              <pre><code class="java">
+              <pre><code class="java">@MasterJoin
+public abstract Hoge join(
+ HogeMst master, 
+ HogeTrn tx);
               </code></pre>
             </div>
           </div>
@@ -417,10 +507,10 @@ public enum Status {
         <div class="panel-heading">
           <div class="row">
             <div class="col-md-10">
-              <h3 class="panel-title">MasterBranch</h3>
+              <h3 class="panel-title">MasterBranch：マスタ分岐演算子</h3>
             </div>
             <div class="col-md-2">
-              <a class="pull-right" href="" target="_blank">Official Page</a>
+              <a class="pull-right" href="http://asakusafw.s3.amazonaws.com/documents/latest/release/ja/html/dsl/operators.html#id70" target="_blank">Official Page</a>
             </div>
           </div>
         </div>
@@ -431,12 +521,35 @@ public enum Status {
             </div>
             <div class="col-md-4">
               <h5>JobFlowクラス実装</h5>
-              <pre><code class="java">
+              <pre><code class="java">BranchWithJoin branchWithJoin
+   = operator.branchWithJoin
+      (this.itemMaster, this.tx);
+this.out.add(
+  branchWithJoin.expensive);
               </code></pre>
             </div>
             <div class="col-md-4">
               <h5>Operatorクラス実装</h5>
-              <pre><code class="java">
+              <pre><code class="java">@MasterBranch
+public Status branchWithJoin(
+ @Key(group = "id") ItemMst master,
+ @Key(group = "itemId") HogeTrn tx) {
+ if (master == null) {
+  return Status.ERROR;
+ }
+ int price = master.getPrice();
+ if (price < 0) {
+  return Status.ERROR;
+ }
+ if (price >= 1000000) {
+  return Status.EXPENSIVE;
+ }
+ return Status.CHEAP;
+}
+
+public enum Status {
+ EXPENSIVE,CHEAP,ERROR
+}
               </code></pre>
             </div>
           </div>
@@ -452,10 +565,10 @@ public enum Status {
         <div class="panel-heading">
           <div class="row">
             <div class="col-md-10">
-              <h3 class="panel-title">BranchWithJoin</h3>
+              <h3 class="panel-title">MasterJoinUpdate：マスタ付き更新演算子</h3>
             </div>
             <div class="col-md-2">
-              <a class="pull-right" href="" target="_blank">Official Page</a>
+              <a class="pull-right" href="http://asakusafw.s3.amazonaws.com/documents/latest/release/ja/html/dsl/operators.html#id76" target="_blank">Official Page</a>
             </div>
           </div>
         </div>
@@ -471,7 +584,12 @@ public enum Status {
             </div>
             <div class="col-md-4">
               <h5>Operatorクラス実装</h5>
-              <pre><code class="java">
+              <pre><code class="java">@MasterJoinUpdate
+public void updateWithMaster(
+ @Key(group = "id") ItemMst master,
+ @Key(group = "itemId") HogeTrn tx) {
+ tx.setPrice(master.getPrice());
+}
               </code></pre>
             </div>
           </div>
@@ -487,10 +605,10 @@ public enum Status {
         <div class="panel-heading">
           <div class="row">
             <div class="col-md-10">
-              <h3 class="panel-title">CoGroup</h3>
+              <h3 class="panel-title">CoGroup：グループ結合演算子</h3>
             </div>
             <div class="col-md-2">
-              <a class="pull-right" href="" target="_blank">Official Page</a>
+              <a class="pull-right" href="http://asakusafw.s3.amazonaws.com/documents/latest/release/ja/html/dsl/operators.html#id82" target="_blank">Official Page</a>
             </div>
           </div>
         </div>
@@ -501,12 +619,40 @@ public enum Status {
             </div>
             <div class="col-md-4">
               <h5>JobFlowクラス実装</h5>
-              <pre><code class="java">
+              <pre><code class="java">CheckUp checkup
+ = operator.checkUp(this.hoge, this.foo);
+this.hoge.add(checkUp.hogeResult);
+this.foo.add(checkUp.fooResult);
+this.hogeErr.add(checkUp.hogeError);
+this.fooErr.add(checkUp.fooError);
               </code></pre>
             </div>
             <div class="col-md-4">
               <h5>Operatorクラス実装</h5>
-              <pre><code class="java">
+              <pre><code class="java">@CoGroup
+public void checkUp(
+ @Key(group="id") List<Hoge> hogeList,
+ @Key(group="hogeId") List<Foo> fooList,
+ Result&lt;Hoge&gt; hogeResult,
+ Result&lt;Foo&gt; fooResult,
+ Result&lt;Hoge&gt; hogeError,
+ Result&lt;Foo&gt; fooError) {
+ // いずれも存在＋重複なしで突合成功
+ if (hogeList.size() == 1 
+  && fooList.size() == 1) {
+  hogeResult.add(hogeList.get(0));
+  fooResult.add(fooList.get(0));
+ }
+ // それ以外はエラー
+ else {
+  for (Hoge hoge : hogeList) {
+   hogeError.add(hoge);
+  }
+  for (Foo foo : fooList) {
+    fooError.add(foo);
+  }
+ }
+}
               </code></pre>
             </div>
           </div>
@@ -522,10 +668,10 @@ public enum Status {
         <div class="panel-heading">
           <div class="row">
             <div class="col-md-10">
-              <h3 class="panel-title">Split</h3>
+              <h3 class="panel-title">Split：分割演算子</h3>
             </div>
             <div class="col-md-2">
-              <a class="pull-right" href="" target="_blank">Official Page</a>
+              <a class="pull-right" href="http://asakusafw.s3.amazonaws.com/documents/latest/release/ja/html/dsl/operators.html#id89" target="_blank">Official Page</a>
             </div>
           </div>
         </div>
@@ -536,12 +682,19 @@ public enum Status {
             </div>
             <div class="col-md-4">
               <h5>JobFlowクラス実装</h5>
-              <pre><code class="java">
+              <pre><code class="java">Split split
+ = operator.split(joined);
+this.hogeOut.add(split.hoge);
+this.fooOut.add(split.foo);
               </code></pre>
             </div>
             <div class="col-md-4">
               <h5>Operatorクラス実装</h5>
-              <pre><code class="java">
+              <pre><code class="java">@Split
+public abstract void split(
+ HogeFoo joined,
+ Result&lt;Hoge&gt; hoge,
+ Result&lt;Foo&gt; foo);
               </code></pre>
             </div>
           </div>
@@ -557,10 +710,10 @@ public enum Status {
         <div class="panel-heading">
           <div class="row">
             <div class="col-md-10">
-              <h3 class="panel-title">Summarize</h3>
+              <h3 class="panel-title">Summarize：単純集計演算子</h3>
             </div>
             <div class="col-md-2">
-              <a class="pull-right" href="" target="_blank">Official Page</a>
+              <a class="pull-right" href="http://asakusafw.s3.amazonaws.com/documents/latest/release/ja/html/dsl/operators.html#id94" target="_blank">Official Page</a>
             </div>
           </div>
         </div>
@@ -571,12 +724,15 @@ public enum Status {
             </div>
             <div class="col-md-4">
               <h5>JobFlowクラス実装</h5>
-              <pre><code class="java">
+              <pre><code class="java">Summarize sum
+ = operator.summarize(this.hoge);
+this.out.add(sum.out);
               </code></pre>
             </div>
             <div class="col-md-4">
               <h5>Operatorクラス実装</h5>
-              <pre><code class="java">
+              <pre><code class="java">@Summarize
+public abstract HogeTotal summarize(Hoge hoge);
               </code></pre>
             </div>
           </div>
@@ -592,10 +748,10 @@ public enum Status {
         <div class="panel-heading">
           <div class="row">
             <div class="col-md-10">
-              <h3 class="panel-title">Fold</h3>
+              <h3 class="panel-title">Fold：畳み込み演算子</h3>
             </div>
             <div class="col-md-2">
-              <a class="pull-right" href="" target="_blank">Official Page</a>
+              <a class="pull-right" href="http://asakusafw.s3.amazonaws.com/documents/latest/release/ja/html/dsl/operators.html#id105" target="_blank">Official Page</a>
             </div>
           </div>
         </div>
@@ -606,12 +762,22 @@ public enum Status {
             </div>
             <div class="col-md-4">
               <h5>JobFlowクラス実装</h5>
-              <pre><code class="java">
+              <pre><code class="java">Fold fold
+ = mainOperator.fold(this.hoge);
+this.out.add(fold.out);
               </code></pre>
             </div>
             <div class="col-md-4">
               <h5>Operatorクラス実装</h5>
-              <pre><code class="java">
+              <pre><code class="java">@Fold
+public void fold(
+ @Key(group = "name") Hoge left, 
+ Hoge right) {
+ // @Summarizeを手動で行うイメージで、
+ // leftに次々とrightを加える
+ left.setValue(left.getValue()
+  + right.getValue());
+}
               </code></pre>
             </div>
           </div>
@@ -624,5 +790,15 @@ public enum Status {
 
     </div>
     <script>hljs.initHighlightingOnLoad();</script>		
+
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/ja_JP/sdk.js#xfbml=1&appId=301538723283567&version=v2.0";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
   </body>
 </html>
